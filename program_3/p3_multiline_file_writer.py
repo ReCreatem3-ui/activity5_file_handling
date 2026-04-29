@@ -44,7 +44,7 @@ class Elements:
             sys.stdout.flush()
             time.sleep(duration / total)
         print()
-    
+
     def slowtype(self, text, duration):
         delay = duration / len(text) if len(text) > 0 else 0
         for char in text:
@@ -52,41 +52,67 @@ class Elements:
             time.sleep(delay)
         print()
 
+class IntroLoader:
+    def __init__(self):
+        self.spacer = Spacer()
+        self.elements = Elements()
+
+    def intro(self):
+        self.spacer.clear_screen()
+        print("""
+                                                    ██████╗ ██████╗  ██████╗  ██████╗ ██████╗  █████╗ ███╗   ███╗    ██████╗ 
+                                                    ██╔══██╗██╔══██╗██╔═══██╗██╔════╝ ██╔══██╗██╔══██╗████╗ ████║    ╚════██╗
+                                                    ██████╔╝██████╔╝██║   ██║██║  ███╗██████╔╝███████║██╔████╔██║     █████╔╝
+                                                    ██╔═══╝ ██╔══██╗██║   ██║██║   ██║██╔══██╗██╔══██║██║╚██╔╝██║     ╚═══██╗
+                                                    ██║     ██║  ██║╚██████╔╝╚██████╔╝██║  ██║██║  ██║██║ ╚═╝ ██║    ██████╔╝
+                                                    ╚═╝     ╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝    ╚═════╝ 
+            """)
+        self.elements.slowtype("                                                                            Multi-line file writer", duration=2.5)
+        self.spacer.light_space()
+        time.sleep(2)
+
 class FileWriter:
     def __init__(self, output_file):
         base = os.path.dirname(os.path.abspath(__file__))
         self.output_file = os.path.join(base, output_file)
         self.element = Elements()
         self.space = Spacer()
+        self.lines_buffer = []
 
     def write_lines(self):
-        f = open(self.output_file, "w")
+        self.lines_buffer = []
         more = "y"
 
         while more.lower() == "y":
             self.space.clear_screen()
             line = input("Enter a line: ")
-            f.write(line + "\n")
+            self.lines_buffer.append(line)
             self.space.one_space()
             more = input("Add more lines? (y/n): ")
 
-        f.close()
-        self.space.clear_screen()
-        print("Saved to", self.output_file)
-    
     def append_lines(self):
-        f = open(self.output_file, "a")
+        self.lines_buffer = []
         more = "y"
 
         while more.lower() == "y":
             self.space.clear_screen()
             line = input("Enter a line: ")
-            f.write(line + "\n")
+            self.lines_buffer.append(line)
             self.space.one_space()
             more = input("Add more lines? (y/n): ")
 
+    def save_write(self):
+        f = open(self.output_file, "w")
+        for line in self.lines_buffer:
+            f.write(line + "\n")
         f.close()
-        self.space.clear_screen()
+        print("Saved to", self.output_file)
+
+    def save_append(self):
+        f = open(self.output_file, "a")
+        for line in self.lines_buffer:
+            f.write(line + "\n")
+        f.close()
         print("Appended to", self.output_file)
 
     def display_contents(self):
@@ -107,6 +133,38 @@ class SelectMenu:
         self.space = Spacer()
         self.element = Elements()
 
+    def post_action(self, writer, mode):
+        while True:
+            self.space.clear_screen()
+            print("What do you want to do next?")
+            if mode != "read":
+                print("  [1] Save and display")
+            print("  [2] Return to menu")
+            print("  [3] Exit")
+            choice = input("Enter choice: ")
+
+            if choice == "1" and mode != "read":
+                if mode == "write":
+                    writer.save_write()
+                elif mode == "append":
+                    writer.save_append()
+                self.element.loading_bar("Saving ")
+                writer.display_contents()
+                return "done"
+            elif choice == "2":
+                self.space.clear_screen()
+                print("Returning to menu...")
+                time.sleep(1)
+                return "menu"
+            elif choice == "3":
+                self.space.clear_screen()
+                self.element.loading_bar("Exiting ")
+                exit()
+            else:
+                print("Invalid choice.")
+                time.sleep(1)
+
+    def run(self):
         while True:
             self.space.clear_screen()
             print("Select mode:")
@@ -120,7 +178,9 @@ class SelectMenu:
                 filename = input("Enter new filename (e.g. mylife.txt): ")
                 writer = FileWriter(filename)
                 writer.write_lines()
-                writer.display_contents()
+                result = self.post_action(writer, "write")
+                if result == "menu":
+                    continue
                 break
 
             elif mode == "2":
@@ -130,23 +190,28 @@ class SelectMenu:
 
                 if not os.path.exists(writer.output_file):
                     self.space.clear_screen()
-                    self.element.slowtype(f"File '{filename}' not found. Try again.")
+                    self.element.slowtype(f"File '{filename}' not found. Try again.", duration=1)
                     time.sleep(2)
                     continue
-                
+
                 self.space.clear_screen()
-                print("\nFile found. What do you want to do?")
+                print("File found. What do you want to do?")
                 print("  [1] Read only")
                 print("  [2] Append new lines")
                 action = input("Enter choice: ")
 
                 if action == "1":
                     writer.display_contents()
+                    result = self.post_action(writer, "read")
+                    if result == "menu":
+                        continue
+                    break
                 elif action == "2":
-                    writer.display_contents()
                     writer.append_lines()
-                    writer.display_contents()
-                break
+                    result = self.post_action(writer, "append")
+                    if result == "menu":
+                        continue
+                    break
 
             elif mode == "3":
                 self.space.clear_screen()
@@ -157,9 +222,7 @@ class SelectMenu:
                 print("Invalid choice. Enter 1, 2, or 3 only.")
                 time.sleep(1.5)
 
-selection = SelectMenu()
-filename = input("Enter output filename: ")
-writer = FileWriter(filename)
-writer.write_lines()
-writer.display_contents()
-
+introduction = IntroLoader()
+introduction.intro()
+menu = SelectMenu()
+menu.run()
