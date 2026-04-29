@@ -25,10 +25,6 @@ class Spacer:
         for i in range(35):
             print()
 
-    def custom_space(self, lines=1):
-        for i in range(lines):
-            print()
-
     def line_separator(self):
         print("-" * 50)
 
@@ -68,7 +64,6 @@ class IntroLoader:
                                                     ╚═╝     ╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝    ╚═════╝ 
             """)
         self.elements.slowtype("                                                                            Multi-line file writer", duration=2.5)
-        self.spacer.light_space()
         time.sleep(2)
 
 class FileWriter:
@@ -137,10 +132,12 @@ class SelectMenu:
         while True:
             self.space.clear_screen()
             print("What do you want to do next?")
+            self.space.line_separator()
             if mode != "read":
                 print("  [1] Save and display")
             print("  [2] Return to menu")
             print("  [3] Exit")
+            self.space.line_separator()
             choice = input("Enter choice: ")
 
             if choice == "1" and mode != "read":
@@ -168,9 +165,11 @@ class SelectMenu:
         while True:
             self.space.clear_screen()
             print("Select mode:")
+            self.space.equals_separator()
             print("  [1] Create new file")
             print("  [2] Open existing file")
             print("  [3] Exit")
+            self.space.equals_separator()
             mode = input("Enter choice: ")
 
             if mode == "1":
