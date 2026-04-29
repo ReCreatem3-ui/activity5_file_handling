@@ -154,9 +154,9 @@ class PowerSeparator:
             else:
                 cube.write(str(num ** 3) + "\n")
         
-        src.close
-        square.close
-        cube.close
+        src.close()
+        square.close()
+        cube.close()
     
     def display_results(self):
         f = open(self.double_file, "r")
@@ -182,6 +182,37 @@ class PowerSeparator:
         print("--- Cube of Odd Numbers ---")
         print("Numbers used: ", ", ".join(str(n) for n in odd_nums))
         print("Results:      ", ", ".join(str(n) for n in odd_results))
+
+class SelectMenu:
+    def __init__(self):
+        self.space = Spacer()
+        self.element = Elements()
+        self.processor = PowerSeparator("integers.txt", "double.txt", "triple.txt")
+
+    def post_action(self):
+        while True:
+            self.space.clear_screen()
+            print("What do you want to do next?")
+            print("  [1] Try again")
+            print("  [2] Return to menu")
+            print("  [3] Proceed to results")
+            print("  [4] Exit")
+            choice = input("Enter choice: ")
+
+            if choice == "1":
+                return "retry"
+            elif choice == "2":
+                return "menu"
+            elif choice == "3":
+                self.element.loading_bar("Processing results ")
+                return "proceed"
+            elif choice == "4":
+                self.space.clear_screen()
+                self.element.loading_bar("Exiting ")
+                exit()
+            else:
+                print("Invalid choice. Enter 1, 2, 3, or 4 only.")
+                time.sleep(1)
 
 processor = PowerSeparator("integers.txt", "double.txt", "triple.txt")
 processor.process()
