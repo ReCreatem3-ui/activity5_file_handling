@@ -15,6 +15,21 @@ class EvenOddSeparator:
         self.source_file = os.path.join(base, source_file)
         self.even_file = os.path.join(base, even_file)
         self.odd_file = os.path.join(base, odd_file)
+    
+    def generate_numbers(self):
+        range_start = int(input("Enter range start: "))
+        range_end = int(input("Enter range end: "))
+
+    def manual_input(self):
+        f = open(self.source_file, "w")
+        more = "y"
+
+        while more.lower() == "y":
+            num = input("Enter a number: ")
+            f.write(num + "\n")
+            more = input("Add more? (y/n)")
+        
+        f.close()
 
     def choose_mode(self):
         print("Select input mode:")
@@ -28,6 +43,8 @@ class EvenOddSeparator:
             self.manual_input()
         else:
             print("Invalid choice.")
+    
+
  
     def separate(self):
         src = open(self.source_file, "r")
