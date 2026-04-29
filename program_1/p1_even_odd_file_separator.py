@@ -30,21 +30,42 @@ class Spacer:
         for i in range(25):
             print()
 
-def slowtype(text, duration):
-    delay = duration / len(text) if len(text) > 0 else 0
-    for char in text:
-        print(char, end='', flush=True)
-        time.sleep(delay)
-    print()
+class Elements:
+    def slowtype(self, text, duration):
+        delay = duration / len(text) if len(text) > 0 else 0
+        for char in text:
+            print(char, end='', flush=True)
+            time.sleep(delay)
+        print()
 
-def loading_bar(label="", total=26, duration=2):
-    for i in range(total + 1):
-        bar = '▄' * i + ' ' * (total - i)
-        percent = int((i / total) * 100)
-        sys.stdout.write(f'\r{label}{bar} {percent}%')
-        sys.stdout.flush()
-        time.sleep(duration / total)
-    print()
+    def loading_bar(self, label="", total=26, duration=2):
+        for i in range(total + 1):
+            bar = '▄' * i + ' ' * (total - i)
+            percent = int((i / total) * 100)
+            sys.stdout.write(f'\r{label}{bar} {percent}%')
+            sys.stdout.flush()
+            time.sleep(duration / total)
+        print()
+
+class IntroLoader:
+    def __init__(self):
+        self.spacer = Spacer()
+        self.elements = Elements()
+
+    def intro(self):
+        self.spacer.clear_screen()
+        print("""
+                                                    ██████╗ ██████╗  ██████╗  ██████╗ ██████╗  █████╗ ███╗   ███╗     ██╗
+                                                    ██╔══██╗██╔══██╗██╔═══██╗██╔════╝ ██╔══██╗██╔══██╗████╗ ████║    ███║
+                                                    ██████╔╝██████╔╝██║   ██║██║  ███╗██████╔╝███████║██╔████╔██║    ╚██║
+                                                    ██╔═══╝ ██╔══██╗██║   ██║██║   ██║██╔══██╗██╔══██║██║╚██╔╝██║     ██║
+                                                    ██║     ██║  ██║╚██████╔╝╚██████╔╝██║  ██║██║  ██║██║ ╚═╝ ██║     ██║
+                                                    ╚═╝     ╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝     ╚═╝
+            """)
+        self.elements.slowtype("                                                                       Even and Odd Number Separator", duration=2.5)
+        self.spacer.light_space()
+        time.sleep(2)
+    
 
 class EvenOddSeparator:
     def __init__(self, source_file, even_file, odd_file):
@@ -53,6 +74,7 @@ class EvenOddSeparator:
         self.even_file = os.path.join(base, even_file)
         self.odd_file = os.path.join(base, odd_file)
         self.spacer = Spacer()
+        self.elements = Elements()
 
     def generate_numbers(self):
         while True:
@@ -85,7 +107,7 @@ class EvenOddSeparator:
 
         self.spacer.clear_screen()
         print("Generated:")
-        slowtype(", ".join(str(n) for n in numbers), duration=3)
+        self.elements.slowtype(", ".join(str(n) for n in numbers), duration=3)
         self.spacer.light_space()
         time.sleep(3)
 
@@ -127,26 +149,25 @@ class EvenOddSeparator:
 
             if mode == "1":
                 self.spacer.clear_screen()
-                loading_bar("Loading number generator ")
+                self.elements.loading_bar("Loading number generator ")
                 self.generate_numbers()
             elif mode == "2":
                 self.spacer.clear_screen()
-                loading_bar("Loading manual input mode ")
+                self.elements.loading_bar("Loading manual input mode ")
                 self.manual_input()
             elif mode == "3":
                 self.spacer.clear_screen()
-                print("\nUsing built-in numbers.txt as input.")
                 print("Warning! If you proceed, the current numbers.txt will be used and results will be overwritten.")
                 confirm = input("Are you sure you want to proceed? (y/n): ")
                 if confirm.lower() == "y":
                     self.spacer.clear_screen()
-                    loading_bar("Loading built-in numbers ")
+                    self.elements.loading_bar("Loading built-in numbers ")
                     mode = "3"
                 else:
                     continue
             elif mode == "4":
                 self.spacer.clear_screen()
-                loading_bar("Exiting ")
+                self.elements.loading_bar("Exiting ")
                 exit()
             else:
                 print("Invalid choice. Enter 1, 2, 3, or 4 only.")
@@ -167,13 +188,13 @@ class EvenOddSeparator:
                     elif mode == "2":
                         self.manual_input()
                     self.spacer.clear_screen()
-                    loading_bar("Processing results ")
+                    self.elements.loading_bar("Processing results ")
                     break
                 elif after == "2":
                     continue
                 elif after == "3":
                     self.spacer.clear_screen()
-                    loading_bar("Finalizing results ")
+                    self.elements.loading_bar("Finalizing results ")
                     break
 
     def separate(self):
@@ -199,18 +220,19 @@ class EvenOddSeparator:
         f.close()
         self.spacer.clear_screen()
         print("Even numbers:")
-        slowtype(", ".join(str(n) for n in even_nums), duration=3)
+        self.elements.slowtype(", ".join(str(n) for n in even_nums), duration=3)
 
         f = open(self.odd_file, "r")
         odd_nums = sorted([int(line.strip()) for line in f])
         f.close()
         self.spacer.light_space()
         print("Odd numbers:")
-        odd_nums = slowtype(", ".join(str(n) for n in odd_nums), duration=3)
+        odd_nums = self.elements.slowtype(", ".join(str(n) for n in odd_nums), duration=3)
         self.spacer.one_space()
 
-
+introduction = IntroLoader()
 separator = EvenOddSeparator("numbers.txt", "even.txt", "odd.txt")
+introduction.intro()
 separator.choose_mode()
 separator.separate()
 separator.display_results()
