@@ -1,4 +1,42 @@
 import os
+import time
+import sys
+
+class Spacer:
+    def __init__(self):
+        pass
+
+    def light_space(self):
+        for i in range(2):
+            print()
+
+    def medium_space(self):
+        for i in range(3):
+            print()
+
+    def heavy_space(self):
+        for i in range(5):
+            print()
+
+    def custom_space(self, lines=1):
+        for i in range(lines):
+            print()
+
+    def line_separator(self):
+        print("-" * 50)
+
+    def equals_separator(self):
+        print("=" * 50)
+
+class loading_bar:
+    def loading_bar(label="", total=26, duration=2):
+        for i in range(total + 1):
+            bar = '▄' * i + ' ' * (total - i)
+            percent = int((i / total) * 100)
+            sys.stdout.write(f'\r{label}{bar} {percent}%')
+            sys.stdout.flush()
+            time.sleep(duration / total)
+        print()
 
 class GWAFinder:
     def __init__(self, source_file):
