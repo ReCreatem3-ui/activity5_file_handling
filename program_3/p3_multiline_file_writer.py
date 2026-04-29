@@ -164,6 +164,7 @@ class SelectMenu:
     def run(self):
         while True:
             self.space.clear_screen()
+            self.space.equals_separator()
             print("Select mode:")
             self.space.equals_separator()
             print("  [1] Create new file")

@@ -1,20 +1,8 @@
-Maria Santos,1.75
-Jose Reyes,2.00
-Ana Garcia,1.50
-Pedro Lim,2.25
-Rosa Mendoza,1.00
-Carlos Torres,1.75
-Lena Aquino,2.50
-Marco Villanueva,1.25
-Sofia Bautista,1.50
-Diego Ramos,2.75
-Isabela Cruz,1.25
-Miguel Flores,2.00
-Camila Rivera,1.75
-Andres Navarro,1.50
-Lucia Castillo,2.25
-Rafael Morales,1.00
-Elena Jimenez,1.75
-Antonio Gomez,2.00
-Carmen Herrera,1.25
-Juan dela Cruz,1.25
+Jayson Domanico,2.90
+Cong TV,1.54
+Tres Inigo,1.22
+Maurice Dallo,1.20
+Soniel Tamboon,2.10
+Andrei Jules Dela Cruz,1.15
+Matthew Negrido,1.02
+Samuel Toledo,1.00

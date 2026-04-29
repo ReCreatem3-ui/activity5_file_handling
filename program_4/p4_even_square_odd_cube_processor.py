@@ -207,6 +207,7 @@ class SelectMenu:
     def post_action(self):
         while True:
             self.space.clear_screen()
+            self.space.line_separator()
             print("What do you want to do next?")
             self.space.line_separator()
             print("  [1] Try again")
@@ -235,6 +236,7 @@ class SelectMenu:
     def run(self):
             while True:
                 self.space.clear_screen()
+                self.space.equals_separator()
                 print("Select input mode:")
                 self.space.equals_separator()
                 print("  [1] Generate random numbers")

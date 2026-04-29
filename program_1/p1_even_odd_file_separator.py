@@ -145,6 +145,7 @@ class EvenOddSeparator:
     def choose_mode(self):
         while True:
             self.spacer.clear_screen()
+            self.spacer.equals_separator()
             print("Select input mode:")
             self.spacer.equals_separator()
             print("  [1] Generate random numbers")
@@ -184,7 +185,8 @@ class EvenOddSeparator:
             if mode in ("1", "2", "3"):
                 self.spacer.clear_screen()
                 self.spacer.line_separator()
-                print("\nWhat do you want to do next?")
+                print("What do you want to do next?")
+                self.spacer.line_separator()
                 print("  [1] Try again")
                 print("  [2] Back to input mode menu")
                 print("  [3] Finalize and process results")
@@ -238,6 +240,7 @@ class EvenOddSeparator:
         print("Odd numbers:")
         odd_nums = self.elements.slowtype(", ".join(str(n) for n in odd_nums), duration=3)
         self.spacer.one_space()
+        time.sleep(2.5)
 
 introduction = IntroLoader()
 separator = EvenOddSeparator("numbers.txt", "even.txt", "odd.txt")
