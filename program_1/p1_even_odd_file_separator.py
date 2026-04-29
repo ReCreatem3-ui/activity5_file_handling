@@ -1,6 +1,6 @@
 import os
 import time
-import sys
+import random
 
 def slowtype(text, duration):
     delay = duration / len(text) if len(text) > 0 else 0
@@ -19,6 +19,16 @@ class EvenOddSeparator:
     def generate_numbers(self):
         range_start = int(input("Enter range start: "))
         range_end = int(input("Enter range end: "))
+        num_count = int(input("How many numbers to generate?: "))
+
+        numbers = random.sample(range(range_start, range_end + 1), num_count)
+
+        f = open(self.source_file, "w")
+        for num in numbers:
+            f.write(str(num) + "\n")
+        f.close()
+
+        print("Generated:", ", ".join(str(n) for n in numbers))
 
     def manual_input(self):
         f = open(self.source_file, "w")
@@ -44,8 +54,6 @@ class EvenOddSeparator:
         else:
             print("Invalid choice.")
     
-
- 
     def separate(self):
         src = open(self.source_file, "r")
         even = open(self.even_file, "w")
@@ -74,5 +82,6 @@ class EvenOddSeparator:
         print("Odd numbers:", ", ".join(str(n) for n in odd_nums))
  
 separator = EvenOddSeparator("numbers.txt", "even.txt", "odd.txt")
+separator.choose_mode()
 separator.separate()
 separator.display_results()
