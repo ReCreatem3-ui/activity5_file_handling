@@ -97,6 +97,7 @@ class GWAFinder:
         self.element.loading_bar("Loading input mode ")
         self.spacer.light_space()
 
+        session_students = []
         more = "y"
         while more.lower() == "y":
             self.spacer.clear_screen()
@@ -111,7 +112,7 @@ class GWAFinder:
                 if gwa is not None:
                     break
 
-            self.students.append((name, gwa))
+            session_students.append((name, gwa))
             self.spacer.light_space()
             print(f"Added: {name} | GWA: {gwa:.2f}")
             self.spacer.light_space()
@@ -121,6 +122,7 @@ class GWAFinder:
         self.spacer.clear_screen()
         save = input("Save students to file? (y/n): ")
         if save.lower() == "y":
+            self.students.extend(session_students)
             self.element.loading_bar("Saving ")
             self.save_to_file()
             self.spacer.light_space()
@@ -129,6 +131,8 @@ class GWAFinder:
         else:
             print("Students not saved. Returning to menu.")
             time.sleep(2)
+            self.post_action_menu()
+            return
 
         self.find_highest()
         self.display_results()
@@ -199,7 +203,7 @@ class GWAFinder:
         sorted_students = sorted(self.students, key=lambda x: x[1])
         for name, gwa in sorted_students:
             if name == self.top_name:
-                print(f"  {name:<30} {gwa:.2f}  ← HIGHEST GWA")
+                print(f"  {name:<30} {gwa:.2f}  <- HIGHEST GWA")
             else:
                 print(f"  {name:<30} {gwa:.2f}")
         self.spacer.equals_separator()
