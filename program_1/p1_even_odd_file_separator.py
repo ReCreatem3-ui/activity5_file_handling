@@ -73,19 +73,41 @@ class EvenOddSeparator:
 
             if mode == "1":
                 self.generate_numbers()
-                break
             elif mode == "2":
                 self.manual_input()
-                break
             elif mode == "3":
-                break
+                print("\nUsing built-in numbers.txt as input.")
+                print("Warning! If you proceed, the current numbers.txt will be used and results will be overwritten.")
+                confirm = input("Are you sure you want to proceed? (y/n): ")
+                if confirm.lower() == "y":
+                    break
+                else:
+                    continue
             elif mode == "4":
                 print("Exiting...")
                 exit()
             else:
-                print("Invalid choice")
+                print("Invalid choice. Enter 1, 2, 3, or 4 only.")
+                continue
 
-    
+            if mode in ("1", "2", "3"):
+                print("\nWhat do you want to do next?")
+                print("  [1] Try again")
+                print("  [2] Back to input mode menu")
+                print("  [3] Proceed")
+                after = input("Enter choice: ")
+
+                if after == "1":
+                    if mode == "1":
+                        self.generate_numbers()
+                    elif mode == "2":
+                        self.manual_input()
+                elif after == "2":
+                    continue
+                elif after == "3":
+                    break
+
+
     def separate(self):
         src = open(self.source_file, "r")
         even = open(self.even_file, "w")
