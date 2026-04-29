@@ -6,6 +6,9 @@ import sys
 class Spacer:
     def __init__(self):
         pass
+    
+    def one_space(self):
+        print()
 
     def light_space(self):
         for i in range(2):
@@ -19,15 +22,13 @@ class Spacer:
         for i in range(5):
             print()
 
-    def custom_space(self, lines=1):
-        for i in range(lines):
+    def big_space(self):
+        for i in range(10):
             print()
 
-    def line_separator(self):
-        print("-" * 50)
-
-    def equals_separator(self):
-        print("=" * 50)
+    def clear_screen(self):
+        for i in range(25):
+            print()
 
 def slowtype(text, duration):
     delay = duration / len(text) if len(text) > 0 else 0
@@ -56,6 +57,7 @@ class EvenOddSeparator:
     def generate_numbers(self):
         while True:
             try:
+                self.spacer.clear_screen()
                 range_start = int(input("Enter range start: "))
                 range_end = int(input("Enter range end: "))
                 num_count = int(input("How many numbers to generate?: "))
@@ -81,13 +83,17 @@ class EvenOddSeparator:
             f.write(str(num) + "\n")
         f.close()
 
+        self.spacer.clear_screen()
+        print("Generated:")
+        slowtype(", ".join(str(n) for n in numbers), duration=3)
         self.spacer.light_space()
-        print("Generated:", ", ".join(str(n) for n in numbers))
+        time.sleep(3)
 
     def manual_input(self):
         numbers = []
-        more = "y"
+        more = "y"  
 
+        self.spacer.clear_screen()
         while more.lower() == "y":
             while True:
                 try:
@@ -103,53 +109,56 @@ class EvenOddSeparator:
             f.write(str(num) + "\n")
         f.close()
 
+        self.spacer.clear_screen()
+        print("You Entered:")
+        print(", ".join(str(n) for n in numbers))
         self.spacer.light_space()
-        print("You Entered:", ", ".join(str(n) for n in numbers))
+        time.sleep(3)
 
     def choose_mode(self):
         while True:
-            self.spacer.medium_space()
-            self.spacer.equals_separator()
+            self.spacer.clear_screen()
             print("Select input mode:")
             print("  [1] Generate random numbers")
             print("  [2] Manual input")
             print("  [3] View/Overwrite built-in numbers (numbers.txt)")
             print("  [4] Exit")
-            self.spacer.equals_separator()
             mode = input("Enter choice: ")
 
             if mode == "1":
+                self.spacer.clear_screen()
                 loading_bar("Loading number generator ")
                 self.generate_numbers()
             elif mode == "2":
+                self.spacer.clear_screen()
                 loading_bar("Loading manual input mode ")
-                self.generate_numbers()
+                self.manual_input()
             elif mode == "3":
-                self.spacer.light_space()
-                print("Using built-in numbers.txt as input.")
+                self.spacer.clear_screen()
+                print("\nUsing built-in numbers.txt as input.")
                 print("Warning! If you proceed, the current numbers.txt will be used and results will be overwritten.")
                 confirm = input("Are you sure you want to proceed? (y/n): ")
                 if confirm.lower() == "y":
+                    self.spacer.clear_screen()
                     loading_bar("Loading built-in numbers ")
-                    self.spacer.light_space()
                     mode = "3"
                 else:
                     continue
             elif mode == "4":
+                self.spacer.clear_screen()
                 loading_bar("Exiting ")
                 exit()
             else:
                 print("Invalid choice. Enter 1, 2, 3, or 4 only.")
+                time.sleep(0.5)
                 continue
 
             if mode in ("1", "2", "3"):
-                self.spacer.light_space()
-                self.spacer.line_separator()
-                print("What do you want to do next?")
+                self.spacer.clear_screen()
+                print("\nWhat do you want to do next?")
                 print("  [1] Try again")
                 print("  [2] Back to input mode menu")
                 print("  [3] Finalize and process results")
-                self.spacer.line_separator()
                 after = input("Enter choice: ")
 
                 if after == "1":
@@ -157,14 +166,14 @@ class EvenOddSeparator:
                         self.generate_numbers()
                     elif mode == "2":
                         self.manual_input()
+                    self.spacer.clear_screen()
                     loading_bar("Processing results ")
-                    self.spacer.light_space()
                     break
                 elif after == "2":
                     continue
                 elif after == "3":
+                    self.spacer.clear_screen()
                     loading_bar("Finalizing results ")
-                    self.spacer.light_space()
                     break
 
     def separate(self):
@@ -184,19 +193,21 @@ class EvenOddSeparator:
         odd.close()
 
     def display_results(self):
-        self.spacer.medium_space()
-        self.spacer.equals_separator()
+        self.spacer = Spacer()
         f = open(self.even_file, "r")
         even_nums = sorted([int(line.strip()) for line in f])
         f.close()
-        print("Even numbers:", ", ".join(str(n) for n in even_nums))
+        self.spacer.clear_screen()
+        print("Even numbers:")
+        slowtype(", ".join(str(n) for n in even_nums), duration=3)
 
-        self.spacer.light_space()
         f = open(self.odd_file, "r")
         odd_nums = sorted([int(line.strip()) for line in f])
         f.close()
-        print("Odd numbers:", ", ".join(str(n) for n in odd_nums))
-        self.spacer.equals_separator()
+        self.spacer.light_space()
+        print("Odd numbers:")
+        odd_nums = slowtype(", ".join(str(n) for n in odd_nums), duration=3)
+        self.spacer.one_space()
 
 
 separator = EvenOddSeparator("numbers.txt", "even.txt", "odd.txt")
