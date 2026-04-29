@@ -68,7 +68,6 @@ class IntroLoader:
                                                     ╚═╝     ╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝    ╚══════╝
             """)
         self.elements.slowtype("                                                                              Student GWA Analyzer", duration=2.5)
-        self.spacer.light_space()
         time.sleep(2)
 
 class GWAFinder:
@@ -217,8 +216,8 @@ class GWAFinder:
     def post_action_menu(self):
         while True:
             self.spacer.clear_screen()
-            self.spacer.line_separator()
             print("What do you want to do next?")
+            self.spacer.line_separator()
             print("  [1] Back to main menu")
             print("  [2] Save and exit")
             self.spacer.line_separator()
@@ -241,8 +240,8 @@ class GWAFinder:
     def run(self):
         while True:
             self.spacer.clear_screen()
-            self.spacer.equals_separator()
             print("Select operation:")
+            self.spacer.equals_separator()
             print("  [1] Add new student")
             print("  [2] Load from file")
             print("  [3] Exit")
