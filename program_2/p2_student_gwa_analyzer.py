@@ -175,8 +175,56 @@ class GWAFinder:
         slowtype(f"  Name : {self.top_name}", duration=2)
         slowtype(f"  GWA  : {self.top_gwa:.2f}", duration=2)
         self.spacer.equals_separator()
+
+    def _post_action_menu(self):
+        while True:
+            self.spacer.light_space()
+            self.spacer.line_separator()
+            print("What do you want to do next?")
+            print("  [1] Back to main menu")
+            print("  [2] Save and exit")
+            self.spacer.line_separator()
+            choice = input("Enter choice: ")
+
+            if choice == "1":
+                return
+            elif choice == "2":
+                self.spacer.clear_screen()
+                loading_bar("Saving ")
+                self._save_to_file()
+                self.spacer.light_space()
+                print("Data saved. Goodbye!")
+                self.spacer.light_space()
+                exit()
+            else:
+                self.spacer.light_space()
+                print("Invalid choice. Enter 1 or 2 only.")
+                time.sleep(0.5)
+    
+    def run(self):
+        while True:
+            self.spacer.clear_screen()
+            self.spacer.equals_separator()
+            print("Select operation:")
+            print("  [1] Add new student")
+            print("  [2] Load from file")
+            print("  [3] Exit")
+            self.spacer.equals_separator()
+            choice = input("Enter choice: ")
+
+            if choice == "1":
+                self.add_new_student()
+            elif choice == "2":
+                self.load_from_file()
+            elif choice == "3":
+                self.spacer.clear_screen()
+                loading_bar("Exiting ")
+                exit()
+            else:
+                self.spacer.light_space()
+                print("Invalid choice. Enter 1, 2, or 3 only.")
+                time.sleep(0.5)
  
  
 finder = GWAFinder("students_with_gwa.txt")
-finder.find_highest()
-finder.display_result()
+finder.run()
