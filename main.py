@@ -69,7 +69,6 @@ class IntroOutroLoader:
                                             ╚═╝     ╚═╝╚══════╝╚══════╝    ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝╚═════╝ ╚══════╝╚═╝╚═╝  ╚═══╝ ╚═════╝      
             """)
         self.elements.slowtype("                                                                     Welcome to ReCreatem3's file handling programs", duration=2.5)
-        self.spacer.light_space()
         time.sleep(2)
 
     def outro(self):
@@ -96,19 +95,19 @@ class Launcher:
         self.programs = {
             "1": {
                 "label": "P1 - Even and Odd File Separator",
-                "path": os.path.join(self.base, "P1-EvenOddSeparator", "p1_even_odd_file_separator.py")
+                "path": os.path.join(self.base, "program_1", "p1_even_odd_file_separator.py")
             },
             "2": {
                 "label": "P2 - Student GWA Analyzer",
-                "path": os.path.join(self.base, "P2-StudentGWAAnalyzer", "p2_student_gwa_analyzer.py")
+                "path": os.path.join(self.base, "program_2", "p2_student_gwa_analyzer.py")
             },
             "3": {
                 "label": "P3 - Multiline File Writer",
-                "path": os.path.join(self.base, "P3-MultilineFileWriter", "p3_multiline_file_writer.py")
+                "path": os.path.join(self.base, "program_3", "p3_multiline_file_writer.py")
             },
             "4": {
                 "label": "P4 - Even Square & Odd Cube Processor",
-                "path": os.path.join(self.base, "P4-EvenSquareOddCube", "p4_even_square_odd_cube_processor.py")
+                "path": os.path.join(self.base, "program_4", "p4_even_square_odd_cube_processor.py")
             },
         }
 
